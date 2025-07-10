@@ -1,0 +1,45 @@
+.focus:focus {
+  outline: 1px solid #4e75ff;
+}
+.form {
+  margin-left: 156px;
+  width: 360px;
+}
+
+.focus {
+  margin-top: 8px;
+  width: 360px;
+  border-radius: 4px;
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  margin: 20px 8px 0 48px;
+  accent-color: #4e75ff;
+  vertical-align: text-bottom;
+}
+
+fieldset {
+  height: 78px;
+  width: 360px;
+  border-radius: 4px;
+  border: 1px solid #808080;
+  margin: 30px 0 0 0;
+  padding: 0;
+}
+
+fieldset:hover,
+fieldset:focus {
+  border: 1px solid #000;
+}
+
+.button {
+  display: block;
+  width: 360px;
+  margin: 24px 0 0 0;
+}
+
+legend {
+  margin: 0 0 0 28px;
+}

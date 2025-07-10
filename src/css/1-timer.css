@@ -1,0 +1,92 @@
+/* @import url( "izitoast/dist/css/iziToast.min.css"); */
+/* .iziTost>.iziTost-close{
+    color:wthite;
+    background: url('./img/cross.svg')
+    
+} */
+
+.iziToast > .iziToast-close {
+  background: url('../img/cross.svg') no-repeat 50% 50%;
+  background-size: 16px;
+  opacity: 1;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+
+input {
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  width: 242px;
+  height: 40px;
+  padding: 0 0 0 16px;
+  border: 1px solid #808080;
+  border-radius: 8px;
+}
+
+input:hover {
+  border: 1px solid #000000;
+}
+input:active {
+  border: 1px solid #4e75ff;
+}
+input:disabled {
+  border: 1px solid #808080;
+  color: #808080;
+}
+input:focus {
+  outline: none;
+}
+
+button {
+  margin: auto 0 0 8px;
+  width: 75px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background-color: #4e75ff;
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+button:hover {
+  background-color: #6c8cff;
+}
+
+button:disabled {
+  color: #989898;
+  background-color: #cfcfcf;
+}
+
+.set-date {
+  font-size: 0;
+  margin: 40px 0 0 156px;
+}
+
+.input-change {
+  border: 1px solid #4e75ff;
+}
+.value {
+  font-size: 40px;
+  line-height: 48px;
+}
+.label {
+  display: block;
+}
+.timer {
+  display: flex;
+  gap: 24px;
+  margin: 40px 0 0 156px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
