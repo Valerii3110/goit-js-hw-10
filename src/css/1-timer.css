@@ -1,9 +1,4 @@
-/* @import url( "izitoast/dist/css/iziToast.min.css"); */
-/* .iziTost>.iziTost-close{
-    color:wthite;
-    background: url('./img/cross.svg')
-    
-} */
+
 
 .iziToast > .iziToast-close {
   background: url('../img/cross.svg') no-repeat 50% 50%;

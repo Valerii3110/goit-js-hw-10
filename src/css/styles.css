@@ -1,29 +1,7 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
 @import url('./reset.css');
 @import url('izitoast/dist/css/iziToast.min.css');
 @import url('./1-timer.css');
 @import url('./2-snackbar.css');
-
-/* :root {
-  font-family: Montserrat, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #ebeaea;
-  background-color: rgba(255, 255, 255, 0.87);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-} */
 
 a:hover {
   color: #4e75ff;
