@@ -1,100 +1,108 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 import errorSvg from '../img/error.svg';
 
-const button = document.querySelector('button');
-button.addEventListener('click', clickHandler);
+const startButton = document.querySelector('button');
+const datetimePicker = document.getElementById('datetime-picker');
+const timeValuesArray = document.getElementsByClassName('value');
 
-let userSelectedDate;
-let ms;
+let userSelectedDate = null;
+let countdownInterval = null;
 
-const options = {
+// iziToast error message config
+const toastErrorConfig = {
+  timeout: 5000,
+  title: 'Error',
+  message: 'Please choose a date in the future',
+  titleColor: '#fff',
+  messageColor: '#fff',
+  backgroundColor: '#EF4040',
+  progressBarColor: '#B51B1B',
+  iconUrl: errorSvg,
+  position: 'topRight',
+  titleSize: '16',
+  titleLineHeight: '24',
+  messageSize: '16',
+  messageLineHeight: '24',
+};
+
+// Initialize Flatpickr
+flatpickr(datetimePicker, {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    userSelectedDate = selectedDates[0];
-    ms = userSelectedDate.getTime() - Date.now();
+  onClose([selectedDate]) {
+    const ms = selectedDate.getTime() - Date.now();
     if (ms > 1000) {
-      button.disabled = false;
+      userSelectedDate = selectedDate;
+      startButton.disabled = false;
     } else {
-      button.disabled = true;
-      iziToast.error({
-        timeout: '5000',
-        messageColor: '#ffffff',
-        title: 'Error',
-        titleColor: '#fff',
-        titleSize: '16',
-        titleLineHeight: '24',
-        message: 'Please choose a date in the future',
-        iconUrl: errorSvg,
-        iconColor: '#fff',
-        backgroundColor: '#EF4040',
-        progressBarColor: '#B51B1B',
-        position: 'topRight',
-        messageSize: '16',
-        messageLineHeight: '24',
-      });
+      startButton.disabled = true;
+      iziToast.error(toastErrorConfig);
     }
   },
-};
+});
 
-const datetimePicker = document.getElementById('datetime-picker');
-flatpickr(datetimePicker, options);
+startButton.addEventListener('click', onStartCountdown);
 
-datetimePicker.addEventListener('input', inputHandler);
-
-const timeValuesArray = document.getElementsByClassName('value');
-
-function clickHandler() {
-  button.disabled = true;
+function onStartCountdown() {
+  startButton.disabled = true;
   datetimePicker.disabled = true;
 
-  const intervalId = setInterval(
-    () => {
-      ms = userSelectedDate.getTime() - Date.now();
-      convertMs(ms);
-      const { days, hours, minutes, seconds } = convertMs(ms);
-      timeValuesArray[0].textContent = addLeadingZero(days);
-      timeValuesArray[1].textContent = addLeadingZero(hours);
-      timeValuesArray[2].textContent = addLeadingZero(minutes);
-      timeValuesArray[3].textContent = addLeadingZero(seconds);
-      if (ms < 1000) {
-        clearInterval(intervalId);
-        datetimePicker.disabled = false;
-      }
-      datetimePicker.classList.remove('input-change');
-    },
-    1000,
-    ms
-  );
+  countdownInterval = setInterval(() => {
+    const ms = userSelectedDate.getTime() - Date.now();
+
+    if (ms < 1000) {
+      clearInterval(countdownInterval);
+      datetimePicker.disabled = false;
+
+      iziToast.success({
+        timeout: 4000,
+        title: 'Countdown complete',
+        message: 'Time is up!',
+        titleColor: '#fff',
+        messageColor: '#fff',
+        backgroundColor: '#59A10D',
+        progressBarColor: '#326101',
+        position: 'topRight',
+        icon: '🎉',
+        titleSize: '16',
+        messageSize: '16',
+      });
+
+      document.querySelector('.timer')?.classList.add('finished');
+      return;
+    }
+
+    const { days, hours, minutes, seconds } = convertMs(ms);
+    updateDisplay({ days, hours, minutes, seconds });
+  }, 1000);
 }
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const minutes = Math.floor((ms % hour) / minute);
+  const seconds = Math.floor((ms % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
 
-function inputHandler(event) {
-  event.target.classList.add('input-change');
+function updateDisplay({ days, hours, minutes, seconds }) {
+  timeValuesArray[0].textContent = addLeadingZero(days);
+  timeValuesArray[1].textContent = addLeadingZero(hours);
+  timeValuesArray[2].textContent = addLeadingZero(minutes);
+  timeValuesArray[3].textContent = addLeadingZero(seconds);
 }
 
 function addLeadingZero(value) {
-  return value.toString().padStart(2, '0');
+  return String(value).padStart(2, '0');
 }
